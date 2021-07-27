@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--  load these links without specifying http or https -->
+  <link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/menu/menu-hambuguer.css">
+  <link rel="stylesheet" href="./assets/css/modals/voice-command-language.css">
+  <title>Wheelchair Controller</title>
+</head>
+<body onload="init()">
+  <div class="container">
+		<!-- ---------------
+			Header
+		---------------- -->
+    <header class="header">
+      <div class="nav__hamburger">
+        <svg id="menu-hamburger">
+          <use xlink:href="./assets/images/sprite.svg#icon-menu"></use>
+        </svg>
+      </div>
+      <div class="header-top">
+        <div class="image-logo">
+          <img src="./assets/images/wheelchair.png" alt="wheelchair image">
+        </div>
+        <h1 class="title">Wheelchair Controller</h1>
+      </div>
+      <div class="navigation">
+        <nav id="nav" class="nav">
+          <ul class="menu">
+            <li class="item">
+              <a class="btn btn-info" href="./">Home</a>
+            </li>
+            <li class="item">
+              <div class="dropdown">
+                <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                  Settings
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <li>
+                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#languageModal">
+                      Language
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="item">
+              <a class="btn btn-info" data-bs-toggle="modal" data-bs-target="#helpModal">
+                Help
+              </a>
+            </li>
+            <li class="item">
+              <a class="btn btn-info" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section>
+     	<form role="form" class="form-horizontal" autocomplete="on" onsubmit="connect()">
+        <label for="robotUrlEntry" class="control-label">Robot URL:</label>
+        <div id="robot-url" class="form-group form-group-lg">
+          <div class="">
+            <input type="url" name="url" id="robotUrlEntry" 
+              placeholder="https://" disabled />
+          </div>
+          <div class="btn">
+            <button type="button" id="connectButton" class="btn btn-primary" style="font-size:25" onclick="connect()">
+              <strong>Connect</strong></button>
+          </div>
+        </div>
+		  </form>
+    </section>
+    
+    <!-- -------------------------
+      Buttons Controlers
+    -------------------------- -->
+    <section class="buttons">
+      <div class="container-fluid">
+
+        <div class="icon__move" style="text-align:center">
+          <a class="" id="arrowUp" onclick="arrowUp()" data-toggle="tooltip" data-placement="left" title="Forward">
+            <svg  class="press">
+              <use xlink:href="./assets/images/sprite.svg#icon-arrow-up"></use>
+            </svg>
+          </a>
+        </div>
+        <div class="btn-side">
+          <div class="icon__move">
+            <a class=" vcenter" id="arrowLeft" onclick="arrowLeft() "data-toggle="tooltip" data-placement="left" title="Rotate Left">
+              <svg  class="press">
+                <use xlink:href="./assets/images/sprite.svg#icon-arrow-left2"></use>
+              </svg>
+            </a>
+          </div>
+          <!-- -------------microphone----------- -->
+          <div class="icon-mic">
+            <span id='start_button' class="fa-stack fa-4x vcenter"  
+                onclick="startButton(event)" alt="Start">
+                <img id="mic-img" class="mic-img" src="./assets/images/mic.gif" alt="microphone">
+              <i id='mic-bg' ></i>
+              <i id='mic'></i>
+              <i id='mic-slash' style="display:none;"></i>
+            </span>
+          </div>
+          <!-- ----------------------------------- -->
+          <div class="icon__move vcenter">
+            <a class="" id="arrowRight" onclick="arrowRight()"data-toggle="tooltip" data-placement="left" title="Rotate Right" >
+              <svg  class="press">
+                <use xlink:href="./assets/images/sprite.svg#icon-arrow-right2"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="icon__move" style="text-align:center">
+          <a class="" id="arrowDown" onclick="arrowDown()" data-toggle="tooltip" data-placement="left" title="Back">
+            <svg class="arrow-down press">
+              <use xlink:href="./assets/images/sprite.svg#icon-arrow-up"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+        
+      <div class="btn-speed">
+        <p class="speed-info">Wheelchair Speed</p>
+        <input type="button" value="-" id="btn-speed-decrease">
+        <input type="text" id="speed-value" value="3" disabled>
+        <input type="button" value="+" id="btn-speed-increase">
+      </div>
+
+      <div class="btn-center btn-stop">
+        <div class="col-xs-8 vcenter" style="text-align:center">
+          <button type="button" class="btn btn-danger btn-lg btn-block" style="font-size:25" onclick="stopButton()">
+            <strong>Stop</strong></button>
+        </div>
+      </div>
+
+      <div id="results">
+        Command Log:
+        <div style="height: 100px; overflow: auto;">
+        <table id="commandLog">
+        </table>
+        </div>
+        <br>
+      </div>
+
+      <div id="info" >
+        <p id="info_none"><br><br></p>
+        <p id="info_start">Click on the microphone and begin speaking.</p>
+        <p id="info_speak_now">Speak now.<br><br></p>
+        <p id="info_no_speech">No speech was detected. You may need to adjust your
+          <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
+            microphone settings</a>.</p>
+        <p id="info_no_microphone" style="display:none">
+          No microphone was found. Check that one is installed and that
+          <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
+            microphone settings</a> are correct.</p>
+        <p id="info_allow">Click the "Allow" button to enable your microphone. Using the https version helps avoid this.</p>
+        <p id="info_denied">Permission to use microphone was denied.</p>
+        <p id="info_blocked">Permission to use microphone is blocked. To change, go to chrome://settings/contentExceptions#media-stream</p>
+        <p id="info_upgrade">This browser doesn't support the Web Speech API. Use <a href="//www.google.com/chrome">Chrome</a> version 25 or later.</p>
+      </div>
+    </section>
+    <div class="modals">
+
+      <!-- Modal Language -->
+      <div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="languageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="languageModalLabel">Voice command language </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <select id="select_language" onchange="updateCountry()"></select>
+              &nbsp;&nbsp;
+              <select id="select_dialect"></select>
+              <button id="btn-done-language" type="button" class="btn btn-success" data-bs-dismiss="modal">Done</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Help -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="helpModalLabel">Voice commands to move the robot</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h5>Move the robot forward</h5>
+            <ul>
+              <li>- run</li>
+              <li>- go</li>
+              <li>- forward</li>
+            </ul>
+            <h5>Move the robot right</h5>
+            <ul>
+              <li>- right</li>
+              <li>- turn right</li>
+            </ul>
+            <h5>Move the robot back</h5>
+            <ul>
+              <li>- back</li>
+              <li>- go back</li>
+            </ul>
+            <h5>Move the robot left</h5>
+            <ul>
+              <li>- left</li>
+              <li>- turn left</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Modal Help  -->
+
+    <!-- Modal About -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">About</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h5>About</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Modal About  -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="./scripts/eventemitter2.min.js"></script>
+	<script type="text/javascript" src="./scripts/bootbox.min.js"></script>
+	<script type="text/javascript" src="./scripts/roslib.min.js"></script> 
+	<script type="text/javascript" src="./scripts/clickButtons.js"></script>
+	<script type="text/javascript" src="./js/menuHaburger.js"></script>
+	<script type="text/javascript" src="./js/main.js"></script>
+	<script type="text/javascript" src="./js/languageSettings.js"></script>
+	<script type="text/javascript" src="./js/voiceCommands.js"></script>
+	<script type="text/javascript" src="./js/moveWheelchair.js"></script>
+	<script type="text/javascript" src="./js/speedWheelchair.js"></script>
+</body>
+</html>
