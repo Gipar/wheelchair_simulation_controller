@@ -1,0 +1,262 @@
+body {
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #FFF;
+}
+
+.container-fluid {
+  margin: 3rem 0;
+}
+
+/*< Header >*/
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-bottom: .5rem;
+}
+
+.image-logo img {
+  max-width: 100%;
+  border: 0;
+  width: 60px;
+  border-radius: 50%;
+  margin-top: 1.3rem;
+}
+
+.title {
+  font-family: 'Odibee Sans', cursive;
+  font-weight: 400;
+  font-size: 2.2rem;
+  margin: 0;
+  padding-top: 1rem;
+}
+
+/*</ Header >*/
+#menu-hamburger {
+  display: none;
+}
+
+/* < Form > */
+
+.form-horizontal {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-top: .5rem;
+
+  margin-bottom: .5rem;
+  padding-bottom: .5rem;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-label {
+  margin-left: 1rem;
+  margin-top: 1rem;
+  padding-right: 1rem;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+#robotUrlEntry {
+  height: 2.2rem;
+  padding-left: .9rem;
+}
+
+#connectButton {
+  width: 10rem;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+
+  letter-spacing: .15rem;
+}
+
+form .btn {
+  padding-left: 0.2rem;
+}
+
+/* </ Form > */
+
+
+/* <Buttons Move> */
+
+.icon-mic {
+  text-align:center;
+  margin: 1rem 0;
+}
+
+.container-fluid {
+  max-width: 30.6rem;
+  margin: 0 auto;
+}
+
+.icon__move svg {
+  width: 4.5rem;
+  height: 4.5rem;
+
+  cursor: pointer;
+}
+
+.press.on {
+  background-color: #7AE310;
+  border-radius: 15%;
+}
+
+.arrow-down {
+  transform: rotate(180deg);
+}
+
+.btn-side {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.btn-center {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mic-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+/* </Buttons Move> */
+
+.btn-speed {
+  margin: 3rem auto;
+  display: table;
+}
+
+.speed-info{
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-style: oblique;
+  margin-bottom: 0.1rem;
+}
+
+#btn-speed-increase,
+#btn-speed-decrease {
+  width: 3.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+#speed-value {
+  width: 10rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn-stop {
+  margin: 2rem auto;
+}
+
+.btn-stop button {
+  width: 270px;
+}
+
+#results {
+  font-size: 14px;
+  font-weight: bold;
+  border: 1px solid #ddd;
+  padding: 15px;
+  text-align: left;
+  min-height: 100px;
+}
+
+@media screen and (max-width: 600px) {
+
+  #menu-hamburger {
+    display: initial;
+  }
+
+  .nav__hamburger.on {
+    position: absolute;
+    z-index: 222;
+  }
+
+  .navigation .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 110vw;
+    height: 110vh;
+    position: absolute;
+    background-color: #55398E;
+    top: -7rem;
+    left: -222rem;
+    z-index: 111;
+    transition: all 0.5s;
+  }
+
+  .navigation .nav.on {
+    left: -2rem;
+  }
+
+  ul.menu {
+    display: none;
+  }
+
+  .navigation .nav .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 8rem;
+    background-color: transparent;
+  }
+
+  .navigation .nav a {
+    margin: 0;
+    margin-top: 1rem;
+    margin-right: 1.5rem;
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .image-logo {
+    display: none;
+  }
+
+  .form-horizontal .form-group {
+    flex-direction: column;
+  }
+
+  .control-label {
+    margin: 0;
+    margin-left: 1rem;
+  }
+
+  #robot-url input {
+    width: 70vw;
+    margin-right: 1rem;
+  }
+
+  #robot-url button {
+    width: 70vw;
+    margin-right: 0.5rem;
+  }
+}

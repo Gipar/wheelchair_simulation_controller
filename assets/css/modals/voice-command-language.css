@@ -1,0 +1,8 @@
+#languageModal select {
+  height: 2.2rem;
+  padding: .3rem;
+}
+
+#languageModal .modal-footer .btn-secondary {
+  background-color: #F75D59;
+}
